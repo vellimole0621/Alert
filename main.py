@@ -4,7 +4,7 @@ import json
 import googlemaps
 
 # Twilio
-# 계정 token 입력 - 230510 현재 토큰 만료
+# 계정 token 입력
 account_sid =
 auth_token =
 client = Client(account_sid, auth_token)
@@ -24,6 +24,8 @@ gmaps = googlemaps.Client(key=API) # api key
 reverse_geocode_result = gmaps.reverse_geocode((latitude, longitude), language='ko')
 gps = reverse_geocode_result[1]["formatted_address"]
 
+message_send = 1 # 메세지 송신 트리거
+
 # 화재 감지 코드
 if __name__ == '__main__':
     ser = serial.Serial('/dev/ttyACM1', 9600, timeout=1)
@@ -32,11 +34,17 @@ if __name__ == '__main__':
         if ser.in_waiting > 0 :
             line = ser.readline().decode('utf-8').rstrip()
             s_line = int(line)
-            if s_line > 200: # 실험을 위해서 200을 기준으로 설정
+            if s_line > 200:
+                message_send *= -1
+
+            if message_send < 0: # 실험을 위해서 200을 기준으로 설정
                 message = client.messages \
                     .create(
                     body=f"위험 위험!!, 할머니가 위험해요. 종류 : 화재 발생. 위치는 {gps}",
-                    # from_=
-                    # to=
+                    from_=
+                    to=
                 )
+                message_send = 0
+
+
 
