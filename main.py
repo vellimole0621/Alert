@@ -18,7 +18,7 @@ with open(file_path, "r") as json_file:
 
 # 위도 경도 -> 지번 주소로 변경 // 역지오코드
 
-API =  # API 값
+API =   # API 값
 
 gmaps = googlemaps.Client(key=API) # api key
 reverse_geocode_result = gmaps.reverse_geocode((latitude, longitude), language='ko')
@@ -30,7 +30,7 @@ message_send = 1 # 메세지 송신 트리거
 if __name__ == '__main__':
     ser = serial.Serial('/dev/ttyACM1', 9600, timeout=1)
     ser.flush()
-    while True:
+    while message_send == 1:
         if ser.in_waiting > 0 :
             line = ser.readline().decode('utf-8').rstrip()
             s_line = int(line)
@@ -44,7 +44,6 @@ if __name__ == '__main__':
                     from_=
                     to=
                 )
-                message_send = 0
 
 
 
