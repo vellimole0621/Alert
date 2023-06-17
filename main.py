@@ -20,9 +20,12 @@ with open(file_path, "r") as json_file:
 
 API =   # API 값
 
+# 위도 경도 -> 지번 주소로 변경 // 역지오코드
 gmaps = googlemaps.Client(key=API) # api key
-reverse_geocode_result = gmaps.reverse_geocode((latitude, longitude), language='ko')
+reverse_geocode_result = \
+    gmaps.reverse_geocode((latitude, longitude), language='ko')
 gps = reverse_geocode_result[1]["formatted_address"]
+
 
 message_send = 1 # 메세지 송신 트리거
 
